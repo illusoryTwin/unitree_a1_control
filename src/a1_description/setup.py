@@ -14,10 +14,12 @@ setup(
         ('share/' + package_name, ['package.xml']),
         # Install launch files
         (os.path.join('share', package_name, 'launch'), glob('launch/*.py')),
+        # (os.path.join('share', package_name, 'launch'), glob('launch/*.rviz')),
         # Install URDF/Xacro files
         (os.path.join('share', package_name, 'urdf'), glob('urdf/*.urdf')),
         (os.path.join('share', package_name, 'xacro'), glob('xacro/*.xacro')),
         (os.path.join('share', package_name, 'meshes'), glob('meshes/*.dae')),
+        (os.path.join('share', package_name, 'meshes'), glob('meshes/*.png')),
         # Install Gazebo world files
         (os.path.join('share', package_name, 'worlds'), glob('worlds/*.world')),
     ],

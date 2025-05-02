@@ -59,7 +59,8 @@ RUN apt-get update && apt-get install -y \
     rm -rf /var/lib/apt/lists/*
 
 RUN apt update && apt install -y \
-    ros-humble-ros-gz && \
+    ros-humble-ros-gz \
+    ros-humble-joint-state-publisher-gui && \
     apt-get autoremove -y -qq && \
     rm -rf /var/lib/apt/lists/*
 
