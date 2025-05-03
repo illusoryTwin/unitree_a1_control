@@ -1,23 +1,26 @@
+"""
+Unitree A1 launch with Gazebo launch file
+"""
+
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, Command, PathJoinSubstitution
+from launch.substitutions import LaunchConfiguration, Command
 from launch_ros.actions import Node
-from launch_ros.substitutions import FindPackageShare
-import xacro
+
 
 def generate_launch_description():
-
-    # Launch arguments
+    """
+    Configures Unitree A1 spawned in Gazebo
+    """
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
 
     a1_description_path = os.path.join(
         get_package_share_directory('a1_description'))
     xacro_file = os.path.join(a1_description_path, 'xacro', 'robot.xacro')
     params = {'robot_description': Command(['xacro ', xacro_file]), 'use_sim_time': True}
-    # params = {'robot_description': Command(['xacro ', xacro_file, ' use_gazebo:=true DEBUG:=false']), 'use_sim_time': True}
 
     # Robot State Publisher
     node_robot_state_publisher = Node(
@@ -38,8 +41,12 @@ def generate_launch_description():
     )
 
     gazebo = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([get_package_share_directory('gazebo_ros') + '/launch/gazebo.launch.py']),
-        launch_arguments={'world': get_package_share_directory('a1_description') + '/world/normal.world'}.items()
+        PythonLaunchDescriptionSource(
+            [get_package_share_directory('gazebo_ros') + '/launch/gazebo.launch.py']
+        ),
+        launch_arguments={
+            'world': get_package_share_directory('a1_description') + '/world/normal.world'
+        }.items()
     )
 
     # Spawn Entity
@@ -54,18 +61,10 @@ def generate_launch_description():
         output='screen'
     )
 
-    # Launch Description
-    ld = LaunchDescription()
-
-    # # Add Launch Arguments
-    ld.add_action(DeclareLaunchArgument('use_sim_time', default_value='true'))
-
-    # Add nodes
-    ld.add_action(node_robot_state_publisher)
-    ld.add_action(node_joint_state_publisher)
-    ld.add_action(gazebo)
-    ld.add_action(spawn_entity)
-
-    return ld
-
-
+    return LaunchDescription([
+        DeclareLaunchArgument('use_sim_time', default_value='true'),
+        node_robot_state_publisher,
+        node_joint_state_publisher,
+        gazebo,
+        spawn_entity
+    ])
