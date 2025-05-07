@@ -10,6 +10,7 @@
     <xacro:include filename="$(find a1_description)/xacro/stairs.xacro"/>
     <xacro:include filename="$(find a1_description)/xacro/gazebo.xacro"/>
     <xacro:include filename="$(find a1_description)/xacro/ros2_control.xacro"/>
+    <xacro:include filename="$(find a1_description)/xacro/transmission.xacro"/>
     <!-- <xacro:include filename="$(find a1_gazebo)/launch/stairs.urdf.xacro"/> -->
 
     <!-- <xacro:stairs stairs="15" xpos="0" ypos="0" zpos="0" /> -->
@@ -222,10 +223,20 @@
 
         <gazebo>
             <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-                <robot_sim_type>    </robot_sim_type>
-                <parameters>$(find a1_description)/config/a1_gazebo_controllers.yaml</parameters>
+                <robot_sim_type>robot_description</robot_sim_type>
+                <parameters>$(find a1_description)/config/controller.yaml</parameters>
             </plugin>
         </gazebo>
+
+
+        <!-- ROS control plugin
+        <gazebo>
+            <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>a1_gazebo</robotNamespace>
+            </plugin>
+        </gazebo> -->
+
+
     </xacro:if>
 
 </robot>

@@ -15,6 +15,7 @@ setup(
         # Install launch files
         (os.path.join('share', package_name, 'launch'), glob('launch/*.py')),
         # Install URDF/Xacro files
+        (os.path.join('share', package_name, 'urdf'), glob('urdf/*.urdf')),
         (os.path.join('share', package_name, 'xacro'), glob('xacro/*.xacro')),
         (os.path.join('share', package_name, 'config'), glob('config/*.yaml')),
         (os.path.join('share', package_name, 'meshes'), glob('meshes/*.dae')),
